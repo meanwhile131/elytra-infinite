@@ -10,8 +10,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.option.StickyKeyBinding;
-import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -71,18 +69,19 @@ public class ElytraInfinite implements ClientModInitializer {
 		});
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (toggleKeybind.wasPressed()) {
-				MutableText msg = Text.literal("Infinite Elytra ");
+				MutableText msg = Text.translatable("category.elytrainfinite");
+				msg.append(" ");
 				if (state == FlyState.TOGGLED_OFF) {
 					state = FlyState.NOT_FLYING;
-					msg.append(Text.literal("ON").formatted(Formatting.GREEN));
+					msg.append(Text.translatable("message.elytrainfinite.on").formatted(Formatting.GREEN));
 				}
 				else {
 					state = FlyState.TOGGLED_OFF;
-					msg.append(Text.literal("OFF").formatted(Formatting.RED));
+					msg.append(Text.translatable("message.elytrainfinite.off").formatted(Formatting.RED));
 				}
 				client.player.sendMessage(msg, true);
 			}
 		});
-		LOGGER.info("Elytra infinite loaded.");
+		LOGGER.info("Elytra Infinite loaded.");
 	}
 }

@@ -7,14 +7,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 
 enum FlyState {
 	TOGGLED_OFF,
@@ -33,16 +41,16 @@ public class ElytraInfinite implements ClientModInitializer {
 	private FlyState state = FlyState.NOT_FLYING;
 	private static KeyBinding toggleKeybind;
 	private float pitch;
-	
+
 	@Override
 	public void onInitializeClient() {
 		toggleKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-			"key.elytrainfinite.toggle",
-			GLFW.GLFW_KEY_H,
-			"category.elytrainfinite"
-		));
+				"key.elytrainfinite.toggle",
+				GLFW.GLFW_KEY_H,
+				"category.elytrainfinite"));
 		ClientTickEvents.START_WORLD_TICK.register(world -> {
-			if (state == FlyState.TOGGLED_OFF) return;
+			if (state == FlyState.TOGGLED_OFF)
+				return;
 			ClientPlayerEntity player = MinecraftClient.getInstance().player;
 			if (player == null || !player.isGliding()) {
 				state = FlyState.NOT_FLYING;
@@ -75,13 +83,19 @@ public class ElytraInfinite implements ClientModInitializer {
 				if (state == FlyState.TOGGLED_OFF) {
 					state = FlyState.NOT_FLYING;
 					msg.append(Text.translatable("message.elytrainfinite.on").formatted(Formatting.GREEN));
-				}
-				else {
+				} else {
 					state = FlyState.TOGGLED_OFF;
 					msg.append(Text.translatable("message.elytrainfinite.off").formatted(Formatting.RED));
 				}
 				client.player.sendMessage(msg, true);
 			}
+		});
+		UseItemCallback.EVENT.register((player, world, hand) -> {
+			if (player.getStackInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF && !player.isSpectator()) {
+				player.setPitch(pitchUp);
+				state = FlyState.PITCHING_DOWN;
+			}
+			return ActionResult.PASS;
 		});
 		LOGGER.info("Elytra Infinite loaded.");
 	}

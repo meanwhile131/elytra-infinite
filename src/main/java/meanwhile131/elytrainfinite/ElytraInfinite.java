@@ -33,6 +33,8 @@ public class ElytraInfinite implements ClientModInitializer {
 	static final float pitchDown = 34f;
 	static final float pitchUp = -47f;
 	static final float pitchDownSpeed = 0.5f;
+	static final int pitchUpHeight = 5;
+	static final double pitchUpVelocity = 5f;
 	private FlyState state = FlyState.NOT_FLYING;
 	private static KeyBinding toggleKeybind;
 	private float pitch;
@@ -63,7 +65,7 @@ public class ElytraInfinite implements ClientModInitializer {
 			if (state == FlyState.GLIDING_DOWN) {
 				BlockPos pos = player.getBlockPos();
 				int height = world.getChunk(pos).sampleHeightmap(Heightmap.Type.WORLD_SURFACE, pos.getX(), pos.getZ());
-				if (pos.getY() - height < 5) {
+				if (pos.getY() - height < pitchUp || player.getVelocity().lengthSquared() > pitchUpVelocity) {
 					pitch = pitchUp;
 					state = FlyState.PITCHING_DOWN;
 				}

@@ -87,8 +87,9 @@ public class ElytraInfinite implements ClientModInitializer {
 		});
 		UseItemCallback.EVENT.register((player, world, hand) -> {
 			if (player.getStackInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF
-					&& !player.isSpectator()) {
+					&& !player.isSpectator() && player.isGliding()) {
 				player.setPitch(pitchUp);
+				pitch = pitchUp;
 				state = FlyState.PITCHING_DOWN;
 			}
 			return ActionResult.PASS;

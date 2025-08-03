@@ -11,18 +11,13 @@ import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 
 enum FlyState {
 	TOGGLED_OFF,
@@ -91,7 +86,8 @@ public class ElytraInfinite implements ClientModInitializer {
 			}
 		});
 		UseItemCallback.EVENT.register((player, world, hand) -> {
-			if (player.getStackInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF && !player.isSpectator()) {
+			if (player.getStackInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF
+					&& !player.isSpectator()) {
 				player.setPitch(pitchUp);
 				state = FlyState.PITCHING_DOWN;
 			}

@@ -21,6 +21,16 @@ jobs:
           distribution: 'temurin'
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
+      - name: Cache Gradle
+        id: cache-gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ${{ github.workspace }}/.gradle
+          key: ${{ runner.os }}-gradle-${{ github.sha }}
+          restore-keys:
+            ${{ runner.os }}-gradle-
       - name: build
         run: ./gradlew build
       - name: capture build artifacts

@@ -24,7 +24,7 @@ enum FlyState {
 };
 
 public class ElytraInfinite implements ClientModInitializer {
-	public static final String MOD_ID = "elytra-autopilot";
+	public static final String MOD_ID = "elytra-infinite";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	static final float pitchDown = 34f;

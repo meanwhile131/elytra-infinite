@@ -52,24 +52,23 @@ public class ElytraInfinite implements ClientModInitializer {
 				return;
 			}
 			if (state == FlyState.NOT_FLYING) {
-				state = FlyState.PITCHING_DOWN;
-				pitch = player.getPitch();
+				state = FlyState.GLIDING_DOWN;
+				pitch = pitchDown;
 			}
 			if (state == FlyState.PITCHING_DOWN) {
 				pitch += Math.min(pitchDown - pitch, pitchDownSpeed); // change pitch by no more than pitchDownSpeed
 				if (pitch >= pitchDown) // fully pitched down, start gliding
 					state = FlyState.GLIDING_DOWN;
-				player.setPitch(pitch);
 			}
 			if (state == FlyState.GLIDING_DOWN) {
 				BlockPos pos = player.getBlockPos();
 				int height = world.getChunk(pos).sampleHeightmap(Heightmap.Type.WORLD_SURFACE, pos.getX(), pos.getZ());
 				if (pos.getY() - height < 5) {
-					player.setPitch(pitchUp);
+					pitch = pitchUp;
 					state = FlyState.PITCHING_DOWN;
-				} else
-					player.setPitch(pitchDown); // enforce down pitch
+				}
 			}
+			player.setPitch(pitch);
 		});
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (toggleKeybind.wasPressed()) {

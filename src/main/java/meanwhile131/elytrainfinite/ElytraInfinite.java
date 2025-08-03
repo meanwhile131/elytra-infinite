@@ -32,7 +32,8 @@ public class ElytraInfinite implements ClientModInitializer {
 	static final float pitchDownSpeed = 0.5f;
 	private FlyState state = FlyState.NOT_FLYING;
 	private static KeyBinding toggleKeybind;
-
+	private float pitch;
+	
 	@Override
 	public void onInitializeClient() {
 		toggleKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
@@ -49,9 +50,9 @@ public class ElytraInfinite implements ClientModInitializer {
 			}
 			if (state == FlyState.NOT_FLYING) {
 				state = FlyState.PITCHING_DOWN;
+				pitch = player.getPitch();
 			}
 			if (state == FlyState.PITCHING_DOWN) {
-				float pitch = player.getPitch();
 				pitch += Math.min(pitchDown - pitch, pitchDownSpeed); // change pitch by no more than pitchDownSpeed
 				if (pitch >= pitchDown) // fully pitched down, start gliding
 					state = FlyState.GLIDING_DOWN;

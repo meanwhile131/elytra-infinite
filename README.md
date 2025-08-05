@@ -4,7 +4,7 @@ There is a keybind to toggle the mod (H by default). To start flying you can eit
 When you start flying, the mod will:
 - Pitch down to 34°.
 - Wait until you are 5 blocks above the ground or are faster than 45 blocks/second.
-- Pitch up to -47° and slowly move your camera down by 10°/second until it gets back to 34° down.
+- Pitch up to -47° and slowly move your camera down by 10°/second until it gets back to 34° down OR you lose all of your vertical speed (in which case you pitch down immediately).
 
 This method will gain you ~3 blocks of height per iteration, so you can fly for as long as your elytra lasts!
 

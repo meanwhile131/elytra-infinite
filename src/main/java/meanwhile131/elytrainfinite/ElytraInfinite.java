@@ -38,6 +38,7 @@ public class ElytraInfinite implements ClientModInitializer {
 	private FlyState state = FlyState.NOT_FLYING;
 	private static KeyBinding toggleKeybind;
 	private float pitch;
+	private double lowest_y;
 
 	@Override
 	public void onInitializeClient() {
@@ -59,15 +60,18 @@ public class ElytraInfinite implements ClientModInitializer {
 			}
 			if (state == FlyState.PITCHING_DOWN) {
 				pitch += Math.min(pitchDown - pitch, pitchDownSpeed); // change pitch by no more than pitchDownSpeed
-				if (pitch >= pitchDown) // fully pitched down, start gliding
-					state = FlyState.GLIDING_DOWN;
+				if (pitch >= pitchDown || (player.getVelocity().y <= 0 && player.getY() > lowest_y)) {
+					pitch = pitchDown;
+					state = FlyState.GLIDING_DOWN; // when fully pitched down OR moving downwards, start gliding
+				}
 			}
 			if (state == FlyState.GLIDING_DOWN) {
 				BlockPos pos = player.getBlockPos();
 				int height = world.getChunk(pos).sampleHeightmap(Heightmap.Type.WORLD_SURFACE, pos.getX(), pos.getZ());
-				if (pos.getY() - height < pitchUp || player.getVelocity().lengthSquared() > pitchUpVelocity) {
+				if (pos.getY() - height < pitchUpHeight || player.getVelocity().lengthSquared() > pitchUpVelocity) {
 					pitch = pitchUp;
 					state = FlyState.PITCHING_DOWN;
+					lowest_y = player.getY();
 				}
 			}
 			player.setPitch(pitch);
@@ -92,6 +96,7 @@ public class ElytraInfinite implements ClientModInitializer {
 				player.setPitch(pitchUp);
 				pitch = pitchUp;
 				state = FlyState.PITCHING_DOWN;
+				lowest_y = player.getY();
 			}
 			return ActionResult.PASS;
 		});

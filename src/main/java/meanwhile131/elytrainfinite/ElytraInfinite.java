@@ -6,6 +6,15 @@ import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+
+import dev.isxander.yacl3.api.ConfigCategory;
+import dev.isxander.yacl3.api.Option;
+import dev.isxander.yacl3.api.OptionDescription;
+import dev.isxander.yacl3.api.OptionGroup;
+import dev.isxander.yacl3.api.YetAnotherConfigLib;
+import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
 import meanwhile131.elytrainfinite.mixin.LivingEntityInvoker;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -37,12 +46,7 @@ public class ElytraInfinite
     public static final String MOD_ID = "elytra-infinite";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    static final float pitchDown = 34f;
-    static final float pitchUp = -47f;
-    static final float pitchDownSpeed = 0.5f;
-    static final int pitchUpHeight = 5;
-    static final double pitchUpVelocity = 2.4f;
-    static final int ticksCollisionLookAhead = 15;
+    public static ModConfig CONFIG;
     private FlyState state = FlyState.NOT_FLYING;
     private static KeyBinding toggleKeybind;
     private float pitch;
@@ -50,6 +54,8 @@ public class ElytraInfinite
 
     @Override
     public void onInitializeClient() {
+        ModConfig.HANDLER.load();
+        CONFIG = ModConfig.HANDLER.instance();
         toggleKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.elytrainfinite.toggle",
                 GLFW.GLFW_KEY_H,
@@ -69,27 +75,28 @@ public class ElytraInfinite
             state = FlyState.NOT_FLYING;
             return;
         }
-        if (state == FlyState.NOT_FLYING) {
+        if (state == FlyState.NOT_FLYING) { // we weren't flying, but now are: pitch down to get speed
             state = FlyState.GLIDING_DOWN;
-            pitch = pitchDown;
+            pitch = CONFIG.pitchDown;
         }
         if (state == FlyState.PITCHING_DOWN) {
-            pitch += Math.min(pitchDown - pitch, pitchDownSpeed); // change pitch by no more than pitchDownSpeed
+            pitch += Math.min(CONFIG.pitchDown - pitch, CONFIG.pitchDownSpeed); // change pitch by no more than
+                                                                                // pitchDownSpeed
 
             // check we are above lowest_y to prevent instantly pitching down from leftover
             // downwards velocity after gliding down
             boolean movingDownwards = player.getVelocity().y <= 0 && player.getY() > lowest_y;
 
-            if (pitch >= pitchDown || movingDownwards) {
-                pitch = pitchDown;
+            if (pitch >= CONFIG.pitchDown || movingDownwards) {
+                pitch = CONFIG.pitchDown;
                 state = FlyState.GLIDING_DOWN;
             }
         }
         if (state == FlyState.GLIDING_DOWN) {
-            boolean willCollide = this.willCollideWhileGliding(player, ticksCollisionLookAhead);
+            boolean willCollide = this.willCollideWhileGliding(player, CONFIG.ticksCollisionLookAhead);
 
-            if (willCollide || player.getVelocity().horizontalLengthSquared() > pitchUpVelocity) {
-                pitch = pitchUp;
+            if (willCollide || player.getVelocity().horizontalLengthSquared() > Math.pow(CONFIG.pitchUpVelocity, 2)) {
+                pitch = CONFIG.pitchUp;
                 state = FlyState.PITCHING_DOWN;
                 lowest_y = player.getY();
             }
@@ -117,8 +124,8 @@ public class ElytraInfinite
     public ActionResult interact(PlayerEntity player, World world, Hand hand) {
         if (player.getStackInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF
                 && !player.isSpectator() && player.isGliding()) {
-            player.setPitch(pitchUp);
-            pitch = pitchUp;
+            pitch = CONFIG.pitchUp;
+            player.setPitch(pitch);
             state = FlyState.PITCHING_DOWN;
             lowest_y = player.getY();
         }

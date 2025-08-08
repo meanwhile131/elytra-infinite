@@ -2,5 +2,18 @@
     "key.elytrainfinite.toggle": "Toggle mod",
     "category.elytrainfinite": "Elytra Infinite",
     "message.elytrainfinite.on": "ON",
-    "message.elytrainfinite.off": "OFF"
+    "message.elytrainfinite.off": "OFF",
+    "elytrainfinite.pitchsettings": "Pitch angles",
+    "elytrainfinite.pitchsettings_description": "Settings that specify pitch angles and rotation speeds.",
+    "elytrainfinite.pitchdown": "Down pitch (°)",
+    "elytrainfinite.pitchdown_description": "Pitch angle used when gliding down.",
+    "elytrainfinite.pitchup": "Up pitch (°)",
+    "elytrainfinite.pitchup_description": "Pitch angle used when gaining height.",
+    "elytrainfinite.pitchdownspeed": "Pitch down speed (°/tick)",
+    "elytrainfinite.pitchdownspeed_description": "How fast to pitch down when gaining height.",
+    "elytrainfinite.pitchtriggers": "Pitch up/down triggers",
+    "elytrainfinite.pitchupvelocity": "Horizontal pitch up velocity (blocks/tick)",
+    "elytrainfinite.pitchupvelocity_description": "Velocity at which to pitch up.",
+    "elytrainfinite.tickscollisionlookahead": "Collision look ahead (ticks)",
+    "elytrainfinite.tickscollisionlookahead_description": "Ticks before collision to pitch up (when gliding down)"
 }

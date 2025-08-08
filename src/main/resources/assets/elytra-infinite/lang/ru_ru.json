@@ -1,5 +1,18 @@
 {
     "key.elytrainfinite.toggle": "Включить/выключить мод",
     "message.elytrainfinite.on": "ВКЛ",
-    "message.elytrainfinite.off": "ВЫКЛ"
+    "message.elytrainfinite.off": "ВЫКЛ",
+    "elytrainfinite.pitchsettings": "Углы тангажа",
+    "elytrainfinite.pitchsettings_description": "Настройки которые задают углы тангажа и скорости их изменения.",
+    "elytrainfinite.pitchdown": "Угол вниз (°)",
+    "elytrainfinite.pitchdown_description": "Угол который используется при планировании вниз.",
+    "elytrainfinite.pitchup": "Угол вверх (°)",
+    "elytrainfinite.pitchup_description": "Угол который используется для набора высоты.",
+    "elytrainfinite.pitchdownspeed": "Скорость наклона вниз (°/тик)",
+    "elytrainfinite.pitchdownspeed_description": "Насколько быстро наклонять камеру вниз при наборе высоты.",
+    "elytrainfinite.pitchtriggers": "Условия полета вверх/вниз",
+    "elytrainfinite.pitchupvelocity": "Горизонтальная скорость для полета вверх (блоки/тик)",
+    "elytrainfinite.pitchupvelocity_description": "Горизонтальная скорость при которой начинаем набирать высоту.",
+    "elytrainfinite.tickscollisionlookahead": "Проверка будущего столкновения (тик)",
+    "elytrainfinite.tickscollisionlookahead_description": "За сколько тиков до столкновения с блоками начать набирать высоту."
 }

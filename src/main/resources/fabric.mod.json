@@ -9,8 +9,8 @@
     ],
     "contact": {
         "email": "meanwhile049@gmail.com",
-        "issues": "https://github.com/meanwhile131/minecraft-elytra-gliding-mod/issues",
-        "sources": "https://github.com/meanwhile131/minecraft-elytra-gliding-mod"
+        "issues": "https://github.com/meanwhile131/elytra-infinite/issues",
+        "sources": "https://github.com/meanwhile131/elytra-infinite"
     },
     "license": "MIT",
     "icon": "assets/elytra-infinite/icon.png",
@@ -18,6 +18,9 @@
     "entrypoints": {
         "client": [
             "meanwhile131.elytrainfinite.ElytraInfinite"
+        ],
+        "modmenu": [
+            "meanwhile131.elytrainfinite.ModMenuIntegration"
         ]
     },
     "mixins": [
@@ -28,6 +31,7 @@
         "minecraft": "~1.21.8",
         "java": ">=21",
         "fabric-api": "*",
-        "fabric-key-binding-api-v1": "*"
+        "fabric-key-binding-api-v1": "*",
+        "yet_another_config_lib_v3": ">=3.7.1+1.21.6-fabric"
     }
 }

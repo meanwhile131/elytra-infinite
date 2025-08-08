@@ -14,7 +14,7 @@ public class ModConfig {
                     .setJson5(true)
                     .build())
             .build();
-            
+
     @SerialEntry
     public float pitchDown = 30f;
     @SerialEntry
@@ -24,5 +24,5 @@ public class ModConfig {
     @SerialEntry
     public double pitchUpVelocity = 2f;
     @SerialEntry
-    public int ticksCollisionLookAhead = 3;
+    public int ticksCollisionLookAhead = 10;
 }

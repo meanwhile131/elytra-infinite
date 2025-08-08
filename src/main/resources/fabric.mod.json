@@ -1,33 +1,33 @@
 {
-	"schemaVersion": 1,
-	"id": "elytra-infinite",
-	"version": "${version}",
-	"name": "Elytra Infinite",
-	"description": "A mod to infinitely fly with an elytra without fireworks.",
-	"authors": [
-		"meanwhile131"
-	],
-	"contact": {
-		"email": "meanwhile049@gmail.com",
-		"issues": "https://github.com/meanwhile131/minecraft-elytra-gliding-mod/issues",
-		"sources": "https://github.com/meanwhile131/minecraft-elytra-gliding-mod"
-	},
-	"license": "MIT",
-	"icon": "assets/elytra-infinite/icon.png",
-	"environment": "client",
-	"entrypoints": {
-		"client": [
-			"meanwhile131.elytrainfinite.ElytraInfinite"
-		]
-	},
-	"mixins": [
-		"elytra-infinite.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.16.14",
-		"minecraft": "~1.21.8",
-		"java": ">=21",
-		"fabric-api": "*",
-		"fabric-key-binding-api-v1": "*"
-	}
+    "schemaVersion": 1,
+    "id": "elytra-infinite",
+    "version": "${version}",
+    "name": "Elytra Infinite",
+    "description": "A mod to infinitely fly with an elytra without fireworks.",
+    "authors": [
+        "meanwhile131"
+    ],
+    "contact": {
+        "email": "meanwhile049@gmail.com",
+        "issues": "https://github.com/meanwhile131/minecraft-elytra-gliding-mod/issues",
+        "sources": "https://github.com/meanwhile131/minecraft-elytra-gliding-mod"
+    },
+    "license": "MIT",
+    "icon": "assets/elytra-infinite/icon.png",
+    "environment": "client",
+    "entrypoints": {
+        "client": [
+            "meanwhile131.elytrainfinite.ElytraInfinite"
+        ]
+    },
+    "mixins": [
+        "elytra-infinite.mixins.json"
+    ],
+    "depends": {
+        "fabricloader": ">=0.16.14",
+        "minecraft": "~1.21.8",
+        "java": ">=21",
+        "fabric-api": "*",
+        "fabric-key-binding-api-v1": "*"
+    }
 }

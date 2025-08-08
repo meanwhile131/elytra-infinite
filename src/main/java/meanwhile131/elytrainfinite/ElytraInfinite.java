@@ -5,6 +5,8 @@ import net.fabricmc.api.ClientModInitializer;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import meanwhile131.elytrainfinite.mixin.LivingEntityInvoker;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
@@ -17,7 +19,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Heightmap;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
 enum FlyState {
 	TOGGLED_OFF,
@@ -34,7 +37,8 @@ public class ElytraInfinite implements ClientModInitializer {
 	static final float pitchUp = -47f;
 	static final float pitchDownSpeed = 0.5f;
 	static final int pitchUpHeight = 5;
-	static final double pitchUpVelocity = 5f;
+	static final double pitchUpVelocity = 2.4f;
+	static final int ticksCollisionLookAhead = 15;
 	private FlyState state = FlyState.NOT_FLYING;
 	private static KeyBinding toggleKeybind;
 	private float pitch;
@@ -60,15 +64,20 @@ public class ElytraInfinite implements ClientModInitializer {
 			}
 			if (state == FlyState.PITCHING_DOWN) {
 				pitch += Math.min(pitchDown - pitch, pitchDownSpeed); // change pitch by no more than pitchDownSpeed
-				if (pitch >= pitchDown || (player.getVelocity().y <= 0 && player.getY() > lowest_y)) {
+
+				// check we are above lowest_y to prevent instantly pitching down from leftover
+				// downwards velocity after gliding down
+				boolean movingDownwards = player.getVelocity().y <= 0 && player.getY() > lowest_y;
+
+				if (pitch >= pitchDown || movingDownwards) {
 					pitch = pitchDown;
-					state = FlyState.GLIDING_DOWN; // when fully pitched down OR moving downwards, start gliding
+					state = FlyState.GLIDING_DOWN;
 				}
 			}
 			if (state == FlyState.GLIDING_DOWN) {
-				BlockPos pos = player.getBlockPos();
-				int height = world.getChunk(pos).sampleHeightmap(Heightmap.Type.WORLD_SURFACE, pos.getX(), pos.getZ());
-				if (pos.getY() - height < pitchUpHeight || player.getVelocity().lengthSquared() > pitchUpVelocity) {
+				boolean willCollide = this.willCollideWhileGliding(player, ticksCollisionLookAhead);
+
+				if (willCollide || player.getVelocity().horizontalLengthSquared() > pitchUpVelocity) {
 					pitch = pitchUp;
 					state = FlyState.PITCHING_DOWN;
 					lowest_y = player.getY();
@@ -101,5 +110,19 @@ public class ElytraInfinite implements ClientModInitializer {
 			return ActionResult.PASS;
 		});
 		LOGGER.info("Elytra Infinite loaded.");
+	}
+
+	private boolean willCollideWhileGliding(ClientPlayerEntity player, int ticks) {
+		LivingEntityInvoker glidingPlayer = (LivingEntityInvoker) player;
+		Vec3d velocity = player.getVelocity();
+		Box boundingBox = player.getBoundingBox();
+		for (int i = 0; i < ticks; i++) {
+			velocity = glidingPlayer.invokeCalcGlidingVelocity(velocity);
+			boundingBox = boundingBox.offset(velocity);
+			if (!player.getWorld().isSpaceEmpty(null, boundingBox, true)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

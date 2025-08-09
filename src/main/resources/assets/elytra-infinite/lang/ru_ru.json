@@ -14,6 +14,6 @@
     "elytrainfinite.pitchtriggers_description": "Условия при который мод начинает планировать/набирать высоту.",
     "elytrainfinite.pitchupvelocity": "Горизонтальная скорость для полета вверх (блоки/тик)",
     "elytrainfinite.pitchupvelocity_description": "Горизонтальная скорость при которой начинаем набирать высоту.",
-    "elytrainfinite.tickscollisionlookahead": "Проверка будущего столкновения (тик)",
+    "elytrainfinite.tickscollisionlookahead": "Проверка будущего столкновения (тиков)",
     "elytrainfinite.tickscollisionlookahead_description": "За сколько тиков до столкновения с блоками начать набирать высоту."
 }

@@ -26,7 +26,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .option(Option.<Float>createBuilder()
                                         .name(Text.translatable("elytrainfinite.pitchdown"))
                                         .description(OptionDescription
-                                                .of(Text.literal("elytrainfinite.pitchdown_description")))
+                                                .of(Text.translatable("elytrainfinite.pitchdown_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchDown,
                                                 () -> ModConfig.HANDLER.instance().pitchDown,
                                                 newVal -> ModConfig.HANDLER.instance().pitchDown = newVal)
@@ -35,7 +35,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .option(Option.<Float>createBuilder()
                                         .name(Text.translatable("elytrainfinite.pitchup"))
                                         .description(OptionDescription
-                                                .of(Text.literal("elytrainfinite.pitchup_description")))
+                                                .of(Text.translatable("elytrainfinite.pitchup_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchUp,
                                                 () -> ModConfig.HANDLER.instance().pitchUp,
                                                 newVal -> ModConfig.HANDLER.instance().pitchUp = newVal)
@@ -44,7 +44,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .option(Option.<Float>createBuilder()
                                         .name(Text.translatable("elytrainfinite.pitchdownspeed"))
                                         .description(OptionDescription
-                                                .of(Text.literal("elytrainfinite.pitchdownspeed_description")))
+                                                .of(Text.translatable("elytrainfinite.pitchdownspeed_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchDownSpeed,
                                                 () -> ModConfig.HANDLER.instance().pitchDownSpeed,
                                                 newVal -> ModConfig.HANDLER.instance().pitchDownSpeed = newVal)
@@ -57,7 +57,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .option(Option.<Double>createBuilder()
                                         .name(Text.translatable("elytrainfinite.pitchupvelocity"))
                                         .description(OptionDescription
-                                                .of(Text.literal("elytrainfinite.pitchupvelocity_description")))
+                                                .of(Text.translatable("elytrainfinite.pitchupvelocity_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchUpVelocity,
                                                 () -> ModConfig.HANDLER.instance().pitchUpVelocity,
                                                 newVal -> ModConfig.HANDLER.instance().pitchUpVelocity = newVal)
@@ -66,7 +66,7 @@ public class ModMenuIntegration implements ModMenuApi {
                                 .option(Option.<Integer>createBuilder()
                                         .name(Text.translatable("elytrainfinite.tickscollisionlookahead"))
                                         .description(OptionDescription
-                                                .of(Text.literal("elytrainfinite.tickscollisionlookahead_description")))
+                                                .of(Text.translatable("elytrainfinite.tickscollisionlookahead_description")))
                                         .binding(ModConfig.HANDLER.defaults().ticksCollisionLookAhead,
                                                 () -> ModConfig.HANDLER.instance().ticksCollisionLookAhead,
                                                 newVal -> ModConfig.HANDLER.instance().ticksCollisionLookAhead = newVal)

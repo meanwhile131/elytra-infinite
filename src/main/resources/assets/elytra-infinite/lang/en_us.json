@@ -12,6 +12,7 @@
     "elytrainfinite.pitchdownspeed": "Pitch down speed (°/tick)",
     "elytrainfinite.pitchdownspeed_description": "How fast to pitch down when gaining height.",
     "elytrainfinite.pitchtriggers": "Pitch up/down triggers",
+    "elytrainfinite.pitchtriggers_description": "Conditions for the mod to pitch up/down.",
     "elytrainfinite.pitchupvelocity": "Horizontal pitch up velocity (blocks/tick)",
     "elytrainfinite.pitchupvelocity_description": "Velocity at which to pitch up.",
     "elytrainfinite.tickscollisionlookahead": "Collision look ahead (ticks)",

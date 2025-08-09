@@ -11,6 +11,7 @@
     "elytrainfinite.pitchdownspeed": "Скорость наклона вниз (°/тик)",
     "elytrainfinite.pitchdownspeed_description": "Насколько быстро наклонять камеру вниз при наборе высоты.",
     "elytrainfinite.pitchtriggers": "Условия полета вверх/вниз",
+    "elytrainfinite.pitchtriggers_description": "Условия при который мод начинает планировать/набирать высоту.",
     "elytrainfinite.pitchupvelocity": "Горизонтальная скорость для полета вверх (блоки/тик)",
     "elytrainfinite.pitchupvelocity_description": "Горизонтальная скорость при которой начинаем набирать высоту.",
     "elytrainfinite.tickscollisionlookahead": "Проверка будущего столкновения (тик)",

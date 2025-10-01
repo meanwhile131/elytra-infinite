@@ -14,13 +14,6 @@ In a shell (on Linux) or in Git Bash (on Windows) run:
 ```sh
 git clone https://github.com/meanwhile131/elytra-infinite.git
 cd elytra-infinite
-```
-Then, if you're on Linux:
-```sh
 ./gradlew build
-```
-On Windows:
-```sh
-./gradlew.bat
 ```
 The mod JAR will be in `build/libs` (the plain .jar is the one you want, -sources.jar is for other purposes).

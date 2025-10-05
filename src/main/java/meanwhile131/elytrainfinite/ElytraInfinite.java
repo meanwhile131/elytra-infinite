@@ -21,6 +21,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -47,10 +48,11 @@ public class ElytraInfinite
     public void onInitializeClient() {
         ModConfig.HANDLER.load();
         CONFIG = ModConfig.HANDLER.instance();
+        KeyBinding.Category keybindCategory = KeyBinding.Category.create(Identifier.of("elytrainfinite"));
         toggleKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.elytrainfinite.toggle",
                 GLFW.GLFW_KEY_H,
-                "category.elytrainfinite"));
+                keybindCategory));
         ClientTickEvents.START_WORLD_TICK.register(this);
         ClientTickEvents.END_CLIENT_TICK.register(this);
         UseItemCallback.EVENT.register(this);
@@ -130,7 +132,7 @@ public class ElytraInfinite
         for (int i = 0; i < ticks; i++) {
             velocity = glidingPlayer.invokeCalcGlidingVelocity(velocity);
             boundingBox = boundingBox.offset(velocity);
-            if (!player.getWorld().isSpaceEmpty(null, boundingBox, true)) {
+            if (!player.getEntityWorld().isSpaceEmpty(null, boundingBox, true)) {
                 return true;
             }
         }

@@ -2,6 +2,7 @@ package meanwhile131.elytrainfinite;
 
 import net.fabricmc.api.ClientModInitializer;
 
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ enum FlyState {
     NOT_FLYING,
     PITCHING_DOWN,
     GLIDING_DOWN
-};
+}
 
 public class ElytraInfinite
         implements ClientModInitializer, ClientTickEvents.StartWorldTick, ClientTickEvents.EndTick, UseItemCallback {
@@ -60,7 +61,7 @@ public class ElytraInfinite
     }
 
     @Override
-    public void onStartTick(ClientLevel world) {
+    public void onStartTick(@NotNull ClientLevel world) {
         if (state == FlyState.TOGGLED_OFF)
             return;
         LocalPlayer player = Minecraft.getInstance().player;
@@ -98,8 +99,10 @@ public class ElytraInfinite
     }
 
     @Override
-    public void onEndTick(Minecraft client) {
+    public void onEndTick(@NotNull Minecraft client) {
         while (toggleKeybind.consumeClick()) {
+            if (client.player == null)
+                continue;
             MutableComponent msg = Component.translatable("key.category.minecraft.elytrainfinite");
             msg.append(" ");
             if (state == FlyState.TOGGLED_OFF) {
@@ -114,7 +117,7 @@ public class ElytraInfinite
     }
 
     @Override
-    public InteractionResult interact(Player player, Level world, InteractionHand hand) {
+    public @NotNull InteractionResult interact(Player player, @NotNull Level world, @NotNull InteractionHand hand) {
         if (player.getItemInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF
                 && !player.isSpectator() && player.isFallFlying()) {
             pitch = CONFIG.pitchUp;
@@ -125,6 +128,7 @@ public class ElytraInfinite
         return InteractionResult.PASS;
     }
 
+    @SuppressWarnings("resource") // avoid IDE complaining about not closing level
     private boolean willCollideWhileGliding(LocalPlayer player, int ticks) {
         LivingEntityInvoker glidingPlayer = (LivingEntityInvoker) player;
         Vec3 velocity = player.getDeltaMovement();

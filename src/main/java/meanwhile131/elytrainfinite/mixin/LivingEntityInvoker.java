@@ -9,5 +9,5 @@ import net.minecraft.world.phys.Vec3;
 @Mixin(LivingEntity.class)
 public interface LivingEntityInvoker {
     @Invoker("updateFallFlyingMovement")
-    public Vec3 invokeUpdateFallFlyingMovement(Vec3 oldVelocity);
+    Vec3 invokeUpdateFallFlyingMovement(Vec3 oldVelocity);
 }

@@ -100,7 +100,7 @@ public class ElytraInfinite
     @Override
     public void onEndTick(MinecraftClient client) {
         while (toggleKeybind.wasPressed()) {
-            MutableText msg = Text.translatable("category.elytrainfinite");
+            MutableText msg = Text.translatable("key.category.minecraft.elytrainfinite");
             msg.append(" ");
             if (state == FlyState.TOGGLED_OFF) {
                 state = FlyState.NOT_FLYING;

@@ -16,9 +16,9 @@ public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parentScreen -> YetAnotherConfigLib.createBuilder()
-                .title(Text.translatable("category.elytrainfinite"))
+                .title(Text.translatable("key.category.minecraft.elytrainfinite"))
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("category.elytrainfinite"))
+                        .name(Text.translatable("key.category.minecraft.elytrainfinite"))
                         .group(OptionGroup.createBuilder()
                                 .name(Text.translatable("elytrainfinite.pitchsettings"))
                                 .description(OptionDescription

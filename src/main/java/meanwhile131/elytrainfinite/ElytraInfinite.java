@@ -10,21 +10,21 @@ import meanwhile131.elytrainfinite.mixin.LivingEntityInvoker;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 enum FlyState {
     TOGGLED_OFF,
@@ -40,7 +40,7 @@ public class ElytraInfinite
 
     public static ModConfig CONFIG;
     private FlyState state = FlyState.NOT_FLYING;
-    private static KeyBinding toggleKeybind;
+    private static KeyMapping toggleKeybind;
     private float pitch;
     private double lowest_y;
 
@@ -48,8 +48,8 @@ public class ElytraInfinite
     public void onInitializeClient() {
         ModConfig.HANDLER.load();
         CONFIG = ModConfig.HANDLER.instance();
-        KeyBinding.Category keybindCategory = KeyBinding.Category.create(Identifier.of("elytrainfinite"));
-        toggleKeybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        KeyMapping.Category keybindCategory = KeyMapping.Category.register(Identifier.parse("elytrainfinite"));
+        toggleKeybind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.elytrainfinite.toggle",
                 GLFW.GLFW_KEY_H,
                 keybindCategory));
@@ -60,11 +60,11 @@ public class ElytraInfinite
     }
 
     @Override
-    public void onStartTick(ClientWorld world) {
+    public void onStartTick(ClientLevel world) {
         if (state == FlyState.TOGGLED_OFF)
             return;
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        if (player == null || !player.isGliding()) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if (player == null || !player.isFallFlying()) {
             state = FlyState.NOT_FLYING;
             return;
         }
@@ -78,7 +78,7 @@ public class ElytraInfinite
 
             // check we are above lowest_y to prevent instantly pitching down from leftover
             // downwards velocity after gliding down
-            boolean movingDownwards = player.getVelocity().y <= 0 && player.getY() > lowest_y;
+            boolean movingDownwards = player.getDeltaMovement().y <= 0 && player.getY() > lowest_y;
 
             if (pitch >= CONFIG.pitchDown || movingDownwards) {
                 pitch = CONFIG.pitchDown;
@@ -88,51 +88,51 @@ public class ElytraInfinite
         if (state == FlyState.GLIDING_DOWN) {
             boolean willCollide = this.willCollideWhileGliding(player, CONFIG.ticksCollisionLookAhead);
 
-            if (willCollide || player.getVelocity().horizontalLengthSquared() > Math.pow(CONFIG.pitchUpVelocity, 2)) {
+            if (willCollide || player.getDeltaMovement().horizontalDistanceSqr() > Math.pow(CONFIG.pitchUpVelocity, 2)) {
                 pitch = CONFIG.pitchUp;
                 state = FlyState.PITCHING_DOWN;
                 lowest_y = player.getY();
             }
         }
-        player.setPitch(pitch);
+        player.setXRot(pitch);
     }
 
     @Override
-    public void onEndTick(MinecraftClient client) {
-        while (toggleKeybind.wasPressed()) {
-            MutableText msg = Text.translatable("key.category.minecraft.elytrainfinite");
+    public void onEndTick(Minecraft client) {
+        while (toggleKeybind.consumeClick()) {
+            MutableComponent msg = Component.translatable("key.category.minecraft.elytrainfinite");
             msg.append(" ");
             if (state == FlyState.TOGGLED_OFF) {
                 state = FlyState.NOT_FLYING;
-                msg.append(Text.translatable("message.elytrainfinite.on").formatted(Formatting.GREEN));
+                msg.append(Component.translatable("message.elytrainfinite.on").withStyle(ChatFormatting.GREEN));
             } else {
                 state = FlyState.TOGGLED_OFF;
-                msg.append(Text.translatable("message.elytrainfinite.off").formatted(Formatting.RED));
+                msg.append(Component.translatable("message.elytrainfinite.off").withStyle(ChatFormatting.RED));
             }
-            client.player.sendMessage(msg, true);
+            client.player.displayClientMessage(msg, true);
         }
     }
 
     @Override
-    public ActionResult interact(PlayerEntity player, World world, Hand hand) {
-        if (player.getStackInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF
-                && !player.isSpectator() && player.isGliding()) {
+    public InteractionResult interact(Player player, Level world, InteractionHand hand) {
+        if (player.getItemInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF
+                && !player.isSpectator() && player.isFallFlying()) {
             pitch = CONFIG.pitchUp;
-            player.setPitch(pitch);
+            player.setXRot(pitch);
             state = FlyState.PITCHING_DOWN;
             lowest_y = player.getY();
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
-    private boolean willCollideWhileGliding(ClientPlayerEntity player, int ticks) {
+    private boolean willCollideWhileGliding(LocalPlayer player, int ticks) {
         LivingEntityInvoker glidingPlayer = (LivingEntityInvoker) player;
-        Vec3d velocity = player.getVelocity();
-        Box boundingBox = player.getBoundingBox();
+        Vec3 velocity = player.getDeltaMovement();
+        AABB boundingBox = player.getBoundingBox();
         for (int i = 0; i < ticks; i++) {
-            velocity = glidingPlayer.invokeCalcGlidingVelocity(velocity);
-            boundingBox = boundingBox.offset(velocity);
-            if (!player.getEntityWorld().isSpaceEmpty(null, boundingBox, true)) {
+            velocity = glidingPlayer.invokeUpdateFallFlyingMovement(velocity);
+            boundingBox = boundingBox.move(velocity);
+            if (!player.level().noCollision(null, boundingBox, true)) {
                 return true;
             }
         }

@@ -10,63 +10,63 @@ import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.api.controller.DoubleFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 public class ModMenuIntegration implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parentScreen -> YetAnotherConfigLib.createBuilder()
-                .title(Text.translatable("key.category.minecraft.elytrainfinite"))
+                .title(Component.translatable("key.category.minecraft.elytrainfinite"))
                 .category(ConfigCategory.createBuilder()
-                        .name(Text.translatable("key.category.minecraft.elytrainfinite"))
+                        .name(Component.translatable("key.category.minecraft.elytrainfinite"))
                         .group(OptionGroup.createBuilder()
-                                .name(Text.translatable("elytrainfinite.pitchsettings"))
+                                .name(Component.translatable("elytrainfinite.pitchsettings"))
                                 .description(OptionDescription
-                                        .of(Text.translatable("elytrainfinite.pitchsettings_description")))
+                                        .of(Component.translatable("elytrainfinite.pitchsettings_description")))
                                 .option(Option.<Float>createBuilder()
-                                        .name(Text.translatable("elytrainfinite.pitchdown"))
+                                        .name(Component.translatable("elytrainfinite.pitchdown"))
                                         .description(OptionDescription
-                                                .of(Text.translatable("elytrainfinite.pitchdown_description")))
+                                                .of(Component.translatable("elytrainfinite.pitchdown_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchDown,
                                                 () -> ModConfig.HANDLER.instance().pitchDown,
                                                 newVal -> ModConfig.HANDLER.instance().pitchDown = newVal)
                                         .controller(FloatFieldControllerBuilder::create)
                                         .build())
                                 .option(Option.<Float>createBuilder()
-                                        .name(Text.translatable("elytrainfinite.pitchup"))
+                                        .name(Component.translatable("elytrainfinite.pitchup"))
                                         .description(OptionDescription
-                                                .of(Text.translatable("elytrainfinite.pitchup_description")))
+                                                .of(Component.translatable("elytrainfinite.pitchup_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchUp,
                                                 () -> ModConfig.HANDLER.instance().pitchUp,
                                                 newVal -> ModConfig.HANDLER.instance().pitchUp = newVal)
                                         .controller(FloatFieldControllerBuilder::create)
                                         .build())
                                 .option(Option.<Float>createBuilder()
-                                        .name(Text.translatable("elytrainfinite.pitchdownspeed"))
+                                        .name(Component.translatable("elytrainfinite.pitchdownspeed"))
                                         .description(OptionDescription
-                                                .of(Text.translatable("elytrainfinite.pitchdownspeed_description")))
+                                                .of(Component.translatable("elytrainfinite.pitchdownspeed_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchDownSpeed,
                                                 () -> ModConfig.HANDLER.instance().pitchDownSpeed,
                                                 newVal -> ModConfig.HANDLER.instance().pitchDownSpeed = newVal)
                                         .controller(FloatFieldControllerBuilder::create)
                                         .build())
                                 .build())
-                        .group(OptionGroup.createBuilder().name(Text.translatable("elytrainfinite.pitchtriggers"))
+                        .group(OptionGroup.createBuilder().name(Component.translatable("elytrainfinite.pitchtriggers"))
                                 .description(OptionDescription
-                                        .of(Text.translatable("elytrainfinite.pitchtriggers_description")))
+                                        .of(Component.translatable("elytrainfinite.pitchtriggers_description")))
                                 .option(Option.<Double>createBuilder()
-                                        .name(Text.translatable("elytrainfinite.pitchupvelocity"))
+                                        .name(Component.translatable("elytrainfinite.pitchupvelocity"))
                                         .description(OptionDescription
-                                                .of(Text.translatable("elytrainfinite.pitchupvelocity_description")))
+                                                .of(Component.translatable("elytrainfinite.pitchupvelocity_description")))
                                         .binding(ModConfig.HANDLER.defaults().pitchUpVelocity,
                                                 () -> ModConfig.HANDLER.instance().pitchUpVelocity,
                                                 newVal -> ModConfig.HANDLER.instance().pitchUpVelocity = newVal)
                                         .controller(DoubleFieldControllerBuilder::create)
                                         .build())
                                 .option(Option.<Integer>createBuilder()
-                                        .name(Text.translatable("elytrainfinite.tickscollisionlookahead"))
+                                        .name(Component.translatable("elytrainfinite.tickscollisionlookahead"))
                                         .description(OptionDescription
-                                                .of(Text.translatable("elytrainfinite.tickscollisionlookahead_description")))
+                                                .of(Component.translatable("elytrainfinite.tickscollisionlookahead_description")))
                                         .binding(ModConfig.HANDLER.defaults().ticksCollisionLookAhead,
                                                 () -> ModConfig.HANDLER.instance().ticksCollisionLookAhead,
                                                 newVal -> ModConfig.HANDLER.instance().ticksCollisionLookAhead = newVal)

@@ -1,5 +1,5 @@
 # Usage
-This mod is currently for 1.21.10 with Fabric, but may work with Quilt (not tested!).
+This mod is currently for 1.21.11 with Fabric, but may work with Quilt (not tested!).
 You can download the mod from the [modrinth page](https://modrinth.com/mod/elytra-infinite), but you also need to install these mods:
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [YetAnotherConfigLib](https://modrinth.com/mod/yacl)

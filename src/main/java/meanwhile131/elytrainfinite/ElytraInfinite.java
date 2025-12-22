@@ -107,6 +107,7 @@ public class ElytraInfinite
             msg.append(" ");
             if (!CONFIG.enabled) {
                 CONFIG.enabled = true;
+                state = FlyState.NOT_FLYING;
                 ModConfig.HANDLER.save();
                 msg.append(Component.translatable("message.elytrainfinite.on").withStyle(ChatFormatting.GREEN));
             } else {

@@ -9,6 +9,7 @@ import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import dev.isxander.yacl3.api.controller.DoubleFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
+import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
 import net.minecraft.network.chat.Component;
 
@@ -19,6 +20,14 @@ public class ModMenuIntegration implements ModMenuApi {
                 .title(Component.translatable("key.category.minecraft.elytrainfinite"))
                 .category(ConfigCategory.createBuilder()
                         .name(Component.translatable("key.category.minecraft.elytrainfinite"))
+                        .option(Option.<Boolean>createBuilder()
+                                .name(Component.translatable("elytrainfinite.enabled"))
+                                .description(OptionDescription.of(Component.translatable("elytrainfinite.enabled_description")))
+                                .binding(ModConfig.HANDLER.defaults().enabled,
+                                        () -> ModConfig.HANDLER.instance().enabled,
+                                        newVal -> ModConfig.HANDLER.instance().enabled = newVal)
+                                .controller(BooleanControllerBuilder::create)
+                                .build())
                         .group(OptionGroup.createBuilder()
                                 .name(Component.translatable("elytrainfinite.pitchsettings"))
                                 .description(OptionDescription

@@ -3,6 +3,8 @@
     "key.category.minecraft.elytrainfinite": "Elytra Infinite",
     "message.elytrainfinite.on": "ON",
     "message.elytrainfinite.off": "OFF",
+    "elytrainfinite.enabled": "Enable mod",
+    "elytrainfinite.enabled_description": "Enable/disable all features of the mod",
     "elytrainfinite.pitchsettings": "Pitch angles",
     "elytrainfinite.pitchsettings_description": "Settings that specify pitch angles and rotation speeds.",
     "elytrainfinite.pitchdown": "Down pitch (°)",

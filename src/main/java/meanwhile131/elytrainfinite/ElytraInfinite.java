@@ -1,5 +1,6 @@
 package meanwhile131.elytrainfinite;
 
+import com.terraformersmc.modmenu.util.mod.Mod;
 import net.fabricmc.api.ClientModInitializer;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 enum FlyState {
-    TOGGLED_OFF,
     NOT_FLYING,
     PITCHING_DOWN,
     GLIDING_DOWN
@@ -62,7 +62,7 @@ public class ElytraInfinite
 
     @Override
     public void onStartTick(@NotNull ClientLevel world) {
-        if (state == FlyState.TOGGLED_OFF)
+        if (!CONFIG.enabled)
             return;
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null || !player.isFallFlying()) {
@@ -105,11 +105,13 @@ public class ElytraInfinite
                 continue;
             MutableComponent msg = Component.translatable("key.category.minecraft.elytrainfinite");
             msg.append(" ");
-            if (state == FlyState.TOGGLED_OFF) {
-                state = FlyState.NOT_FLYING;
+            if (!CONFIG.enabled) {
+                CONFIG.enabled = true;
+                ModConfig.HANDLER.save();
                 msg.append(Component.translatable("message.elytrainfinite.on").withStyle(ChatFormatting.GREEN));
             } else {
-                state = FlyState.TOGGLED_OFF;
+                CONFIG.enabled = false;
+                ModConfig.HANDLER.save();
                 msg.append(Component.translatable("message.elytrainfinite.off").withStyle(ChatFormatting.RED));
             }
             client.player.displayClientMessage(msg, true);
@@ -118,7 +120,7 @@ public class ElytraInfinite
 
     @Override
     public @NotNull InteractionResult interact(Player player, @NotNull Level world, @NotNull InteractionHand hand) {
-        if (player.getItemInHand(hand).getItem() == Items.FIREWORK_ROCKET && state != FlyState.TOGGLED_OFF
+        if (player.getItemInHand(hand).getItem() == Items.FIREWORK_ROCKET && CONFIG.enabled
                 && !player.isSpectator() && player.isFallFlying()) {
             pitch = CONFIG.pitchUp;
             player.setXRot(pitch);

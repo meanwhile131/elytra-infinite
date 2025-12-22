@@ -16,6 +16,8 @@ public class ModConfig {
             .build();
 
     @SerialEntry
+    public boolean enabled = false;
+    @SerialEntry
     public float pitchDown = 30f;
     @SerialEntry
     public float pitchUp = -48f;

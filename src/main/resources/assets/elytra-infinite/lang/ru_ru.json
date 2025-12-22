@@ -2,6 +2,8 @@
     "key.elytrainfinite.toggle": "Включить/выключить мод",
     "message.elytrainfinite.on": "ВКЛ",
     "message.elytrainfinite.off": "ВЫКЛ",
+    "elytrainfinite.enabled": "Включить мод",
+    "elytrainfinite.enabled_description": "Включить/выключить весь функционал мода",
     "elytrainfinite.pitchsettings": "Углы тангажа",
     "elytrainfinite.pitchsettings_description": "Настройки которые задают углы тангажа и скорости их изменения.",
     "elytrainfinite.pitchdown": "Угол вниз (°)",

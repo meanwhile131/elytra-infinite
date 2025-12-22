@@ -27,4 +27,4 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: ${{ github.event.repository.name }}_${{ steps.version.outputs.tag }}
-          path: build/
+          path: build/libs

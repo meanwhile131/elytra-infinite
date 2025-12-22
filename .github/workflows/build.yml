@@ -1,0 +1,30 @@
+name: Build JAR
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Build with Gradle Wrapper
+        run: ./gradlew build
+      - name: Generate version
+        id: version
+        run: echo "tag=$(git describe --always)" >> $GITHUB_OUTPUT
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ github.event.repository.name }}_${{ steps.version.outputs.tag }}
+          path: build/

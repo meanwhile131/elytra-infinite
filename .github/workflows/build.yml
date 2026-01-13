@@ -18,8 +18,6 @@ jobs:
         with:
           java-version: '25'
           distribution: 'temurin'
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v5
       - name: Build with Gradle Wrapper
         run: ./gradlew build
       - name: Generate version
@@ -30,3 +28,5 @@ jobs:
         with:
           name: ${{ github.event.repository.name }}_${{ steps.version.outputs.tag }}
           path: build/libs
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@v5

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import meanwhile131.elytrainfinite.mixin.LivingEntityInvoker;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
@@ -35,7 +35,7 @@ enum FlyState {
 }
 
 public class ElytraInfinite
-        implements ClientModInitializer, ClientTickEvents.StartWorldTick, ClientTickEvents.EndTick, UseItemCallback {
+        implements ClientModInitializer, ClientTickEvents.StartLevelTick, ClientTickEvents.EndTick, UseItemCallback {
     public static final String MOD_ID = "elytra-infinite";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -50,11 +50,11 @@ public class ElytraInfinite
         ModConfig.HANDLER.load();
         CONFIG = ModConfig.HANDLER.instance();
         KeyMapping.Category keybindCategory = KeyMapping.Category.register(Identifier.parse("elytrainfinite"));
-        toggleKeybind = KeyBindingHelper.registerKeyBinding(new KeyMapping(
+        toggleKeybind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.elytrainfinite.toggle",
                 GLFW.GLFW_KEY_H,
                 keybindCategory));
-        ClientTickEvents.START_WORLD_TICK.register(this);
+        ClientTickEvents.START_LEVEL_TICK.register(this);
         ClientTickEvents.END_CLIENT_TICK.register(this);
         UseItemCallback.EVENT.register(this);
         LOGGER.info("Elytra Infinite loaded.");

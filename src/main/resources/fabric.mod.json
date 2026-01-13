@@ -27,12 +27,12 @@
         "elytra-infinite.mixins.json"
     ],
     "depends": {
-        "fabricloader": ">=0.18.2",
-        "minecraft": "~1.21.11",
-        "java": ">=21",
+        "fabricloader": ">=0.18.4",
+        "minecraft": "~26.1-snapshot-2",
+        "java": ">=25",
         "fabric-api": "*",
         "fabric-key-binding-api-v1": "*",
-        "yet_another_config_lib_v3": ">=3.8.1+1.21.11-fabric"
+        "yet_another_config_lib_v3": "*"
     },
     "recommends": {
       "modmenu": ">=17.0.0-alpha.1"

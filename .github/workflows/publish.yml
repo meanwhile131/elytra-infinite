@@ -25,3 +25,5 @@ jobs:
           modrinth-id: 97vlORDL
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          game-versions: |
+            26.1-snapshot-2

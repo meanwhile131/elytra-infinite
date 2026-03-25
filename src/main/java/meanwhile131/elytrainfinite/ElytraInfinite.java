@@ -115,7 +115,7 @@ public class ElytraInfinite
                 ModConfig.HANDLER.save();
                 msg.append(Component.translatable("message.elytrainfinite.off").withStyle(ChatFormatting.RED));
             }
-            client.player.displayClientMessage(msg, true);
+            client.player.sendOverlayMessage(msg);
         }
     }
 

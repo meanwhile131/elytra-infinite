@@ -24,6 +24,10 @@ repositories {
     	name = "Terraformers"
     	url = "https://maven.terraformersmc.com/"
   	}
+	maven {
+		name = "pb4"
+		url = "https://maven.nucleoid.xyz/"
+	}
 }
 
 dependencies {

@@ -1,5 +1,5 @@
 # Usage
-This mod is currently for 1.21.11 and 26.1-snapshot-2 with Fabric, but may work with Quilt (not tested!).
+This mod is currently for 26.1 with Fabric, but may work with Quilt (not tested!).
 You can download the mod from the [modrinth page](https://modrinth.com/mod/elytra-infinite), but you also need to install these mods:
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [YetAnotherConfigLib](https://modrinth.com/mod/yacl)
@@ -8,7 +8,7 @@ You can download the mod from the [modrinth page](https://modrinth.com/mod/elytr
 # Building
 Requirements:
 - Git
-- JDK 21
+- JDK 25
 
 In a shell (on Linux) or in Git Bash (on Windows) run:
 ```sh

@@ -25,5 +25,5 @@ jobs:
       - name: Build with Gradle Wrapper
         run: ./gradlew build
       - name: Create Draft
-        run: gh release create --draft --generate-notes ${{ inputs.version }} build/libs
+        run: gh release create --draft --generate-notes ${{ inputs.version }} build/libs/*.jar
 

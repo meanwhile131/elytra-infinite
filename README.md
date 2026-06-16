@@ -1,3 +1,5 @@
+[![Build](https://github.com/meanwhile131/elytra-infinite/actions/workflows/build.yml/badge.svg)](https://github.com/meanwhile131/elytra-infinite/actions/workflows/build.yml)
+
 # Usage
 This mod is currently for 26.2 with Fabric, but may work with Quilt (not tested!).
 You can download the mod from the [modrinth page](https://modrinth.com/mod/elytra-infinite), but you also need to install these mods:

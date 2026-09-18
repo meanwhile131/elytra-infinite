@@ -1,10 +1,10 @@
 package meanwhile131.elytrainfinite;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.terraformersmc.modmenu.util.mod.Mod;
 import net.fabricmc.api.ClientModInitializer;
 
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +52,7 @@ public class ElytraInfinite
         KeyMapping.Category keybindCategory = KeyMapping.Category.register(Identifier.parse("elytrainfinite"));
         toggleKeybind = KeyMappingHelper.registerKeyMapping(new KeyMapping(
                 "key.elytrainfinite.toggle",
-                GLFW.GLFW_KEY_H,
+                InputConstants.KEY_H,
                 keybindCategory));
         ClientTickEvents.START_LEVEL_TICK.register(this);
         ClientTickEvents.END_CLIENT_TICK.register(this);
